@@ -1,0 +1,693 @@
+{
+  "ok": true,
+  "sentences": [
+    {
+      "sentence": "Snakebite can be cured if we obtain medical assistance in time",
+      "words": [
+        {
+          "word": "Snakebite",
+          "isStopWord": false
+        },
+        {
+          "word": "can",
+          "isStopWord": true
+        },
+        {
+          "word": "be",
+          "isStopWord": true
+        },
+        {
+          "word": "cured",
+          "isStopWord": false
+        },
+        {
+          "word": "if",
+          "isStopWord": true
+        },
+        {
+          "word": "we",
+          "isStopWord": true
+        },
+        {
+          "word": "obtain",
+          "isStopWord": false
+        },
+        {
+          "word": "medical",
+          "isStopWord": false
+        },
+        {
+          "word": "assistance",
+          "isStopWord": false
+        },
+        {
+          "word": "in",
+          "isStopWord": true
+        },
+        {
+          "word": "time",
+          "isStopWord": false
+        }
+      ]
+    },
+    {
+      "sentence": "Besides, we become rapidly aware of a snake's bite, because we feel the effects right away",
+      "words": [
+        {
+          "word": "Besides",
+          "isStopWord": false
+        },
+        {
+          "word": "we",
+          "isStopWord": true
+        },
+        {
+          "word": "become",
+          "isStopWord": false
+        },
+        {
+          "word": "rapidly",
+          "isStopWord": false
+        },
+        {
+          "word": "aware",
+          "isStopWord": false
+        },
+        {
+          "word": "of",
+          "isStopWord": true
+        },
+        {
+          "word": "a",
+          "isStopWord": true
+        },
+        {
+          "word": "snake's",
+          "isStopWord": false
+        },
+        {
+          "word": "bite",
+          "isStopWord": false
+        },
+        {
+          "word": "because",
+          "isStopWord": true
+        },
+        {
+          "word": "we",
+          "isStopWord": true
+        },
+        {
+          "word": "feel",
+          "isStopWord": false
+        },
+        {
+          "word": "the",
+          "isStopWord": true
+        },
+        {
+          "word": "effects",
+          "isStopWord": false
+        },
+        {
+          "word": "right",
+          "isStopWord": false
+        },
+        {
+          "word": "away",
+          "isStopWord": false
+        }
+      ]
+    },
+    {
+      "sentence": "But the human tongue can lead to far more devastating outcomes which are not always apparent; in the first instance, we may, in some cases, never know who assaulted us, because they act as if they are your best friends",
+      "words": [
+        {
+          "word": "But",
+          "isStopWord": true
+        },
+        {
+          "word": "the",
+          "isStopWord": true
+        },
+        {
+          "word": "human",
+          "isStopWord": false
+        },
+        {
+          "word": "tongue",
+          "isStopWord": false
+        },
+        {
+          "word": "can",
+          "isStopWord": true
+        },
+        {
+          "word": "lead",
+          "isStopWord": false
+        },
+        {
+          "word": "to",
+          "isStopWord": true
+        },
+        {
+          "word": "far",
+          "isStopWord": false
+        },
+        {
+          "word": "more",
+          "isStopWord": true
+        },
+        {
+          "word": "devastating",
+          "isStopWord": false
+        },
+        {
+          "word": "outcomes",
+          "isStopWord": false
+        },
+        {
+          "word": "which",
+          "isStopWord": true
+        },
+        {
+          "word": "are",
+          "isStopWord": true
+        },
+        {
+          "word": "not",
+          "isStopWord": false
+        },
+        {
+          "word": "always",
+          "isStopWord": false
+        },
+        {
+          "word": "apparent",
+          "isStopWord": false
+        },
+        {
+          "word": "in",
+          "isStopWord": true
+        },
+        {
+          "word": "the",
+          "isStopWord": true
+        },
+        {
+          "word": "first",
+          "isStopWord": false
+        },
+        {
+          "word": "instance",
+          "isStopWord": false
+        },
+        {
+          "word": "we",
+          "isStopWord": true
+        },
+        {
+          "word": "may",
+          "isStopWord": false
+        },
+        {
+          "word": "in",
+          "isStopWord": true
+        },
+        {
+          "word": "some",
+          "isStopWord": true
+        },
+        {
+          "word": "cases",
+          "isStopWord": false
+        },
+        {
+          "word": "never",
+          "isStopWord": true
+        },
+        {
+          "word": "know",
+          "isStopWord": false
+        },
+        {
+          "word": "who",
+          "isStopWord": true
+        },
+        {
+          "word": "assaulted",
+          "isStopWord": false
+        },
+        {
+          "word": "us",
+          "isStopWord": false
+        },
+        {
+          "word": "because",
+          "isStopWord": true
+        },
+        {
+          "word": "they",
+          "isStopWord": true
+        },
+        {
+          "word": "act",
+          "isStopWord": false
+        },
+        {
+          "word": "as",
+          "isStopWord": true
+        },
+        {
+          "word": "if",
+          "isStopWord": true
+        },
+        {
+          "word": "they",
+          "isStopWord": true
+        },
+        {
+          "word": "are",
+          "isStopWord": true
+        },
+        {
+          "word": "your",
+          "isStopWord": true
+        },
+        {
+          "word": "best",
+          "isStopWord": false
+        },
+        {
+          "word": "friends",
+          "isStopWord": false
+        }
+      ]
+    },
+    {
+      "sentence": "Especially when you perform in a leadership position, you will encounter people who behave very friendly around you and agree with everything you say",
+      "words": [
+        {
+          "word": "Especially",
+          "isStopWord": false
+        },
+        {
+          "word": "when",
+          "isStopWord": false
+        },
+        {
+          "word": "you",
+          "isStopWord": true
+        },
+        {
+          "word": "perform",
+          "isStopWord": false
+        },
+        {
+          "word": "in",
+          "isStopWord": true
+        },
+        {
+          "word": "a",
+          "isStopWord": true
+        },
+        {
+          "word": "leadership",
+          "isStopWord": false
+        },
+        {
+          "word": "position",
+          "isStopWord": false
+        },
+        {
+          "word": "you",
+          "isStopWord": true
+        },
+        {
+          "word": "will",
+          "isStopWord": false
+        },
+        {
+          "word": "encounter",
+          "isStopWord": false
+        },
+        {
+          "word": "people",
+          "isStopWord": false
+        },
+        {
+          "word": "who",
+          "isStopWord": true
+        },
+        {
+          "word": "behave",
+          "isStopWord": false
+        },
+        {
+          "word": "very",
+          "isStopWord": true
+        },
+        {
+          "word": "friendly",
+          "isStopWord": false
+        },
+        {
+          "word": "around",
+          "isStopWord": false
+        },
+        {
+          "word": "you",
+          "isStopWord": true
+        },
+        {
+          "word": "and",
+          "isStopWord": true
+        },
+        {
+          "word": "agree",
+          "isStopWord": false
+        },
+        {
+          "word": "with",
+          "isStopWord": true
+        },
+        {
+          "word": "everything",
+          "isStopWord": false
+        },
+        {
+          "word": "you",
+          "isStopWord": true
+        },
+        {
+          "word": "say",
+          "isStopWord": false
+        }
+      ]
+    },
+    {
+      "sentence": "However, these same individuals may engage in badmouthing and backstabbing as soon as they are out of sight",
+      "words": [
+        {
+          "word": "However",
+          "isStopWord": false
+        },
+        {
+          "word": "these",
+          "isStopWord": true
+        },
+        {
+          "word": "same",
+          "isStopWord": true
+        },
+        {
+          "word": "individuals",
+          "isStopWord": false
+        },
+        {
+          "word": "may",
+          "isStopWord": false
+        },
+        {
+          "word": "engage",
+          "isStopWord": false
+        },
+        {
+          "word": "in",
+          "isStopWord": true
+        },
+        {
+          "word": "badmouthing",
+          "isStopWord": false
+        },
+        {
+          "word": "and",
+          "isStopWord": true
+        },
+        {
+          "word": "backstabbing",
+          "isStopWord": false
+        },
+        {
+          "word": "as",
+          "isStopWord": true
+        },
+        {
+          "word": "soon",
+          "isStopWord": false
+        },
+        {
+          "word": "as",
+          "isStopWord": true
+        },
+        {
+          "word": "they",
+          "isStopWord": true
+        },
+        {
+          "word": "are",
+          "isStopWord": true
+        },
+        {
+          "word": "out",
+          "isStopWord": true
+        },
+        {
+          "word": "of",
+          "isStopWord": true
+        },
+        {
+          "word": "sight",
+          "isStopWord": false
+        }
+      ]
+    },
+    {
+      "sentence": "It is therefore wise to be friendly with everyone and yet practice healthy detachment by refraining from telling people your innermost secrets",
+      "words": [
+        {
+          "word": "It",
+          "isStopWord": true
+        },
+        {
+          "word": "is",
+          "isStopWord": true
+        },
+        {
+          "word": "therefore",
+          "isStopWord": false
+        },
+        {
+          "word": "wise",
+          "isStopWord": false
+        },
+        {
+          "word": "to",
+          "isStopWord": true
+        },
+        {
+          "word": "be",
+          "isStopWord": true
+        },
+        {
+          "word": "friendly",
+          "isStopWord": false
+        },
+        {
+          "word": "with",
+          "isStopWord": true
+        },
+        {
+          "word": "everyone",
+          "isStopWord": false
+        },
+        {
+          "word": "and",
+          "isStopWord": true
+        },
+        {
+          "word": "yet",
+          "isStopWord": false
+        },
+        {
+          "word": "practice",
+          "isStopWord": false
+        },
+        {
+          "word": "healthy",
+          "isStopWord": false
+        },
+        {
+          "word": "detachment",
+          "isStopWord": false
+        },
+        {
+          "word": "by",
+          "isStopWord": true
+        },
+        {
+          "word": "refraining",
+          "isStopWord": false
+        },
+        {
+          "word": "from",
+          "isStopWord": true
+        },
+        {
+          "word": "telling",
+          "isStopWord": false
+        },
+        {
+          "word": "people",
+          "isStopWord": false
+        },
+        {
+          "word": "your",
+          "isStopWord": true
+        },
+        {
+          "word": "innermost",
+          "isStopWord": false
+        },
+        {
+          "word": "secrets",
+          "isStopWord": false
+        }
+      ]
+    },
+    {
+      "sentence": "By practicing this method, you can avoid making yourself a potential victim of others' jealousy and hatred",
+      "words": [
+        {
+          "word": "By",
+          "isStopWord": true
+        },
+        {
+          "word": "practicing",
+          "isStopWord": false
+        },
+        {
+          "word": "this",
+          "isStopWord": true
+        },
+        {
+          "word": "method",
+          "isStopWord": false
+        },
+        {
+          "word": "you",
+          "isStopWord": true
+        },
+        {
+          "word": "can",
+          "isStopWord": true
+        },
+        {
+          "word": "avoid",
+          "isStopWord": false
+        },
+        {
+          "word": "making",
+          "isStopWord": false
+        },
+        {
+          "word": "yourself",
+          "isStopWord": false
+        },
+        {
+          "word": "a",
+          "isStopWord": true
+        },
+        {
+          "word": "potential",
+          "isStopWord": false
+        },
+        {
+          "word": "victim",
+          "isStopWord": false
+        },
+        {
+          "word": "of",
+          "isStopWord": true
+        },
+        {
+          "word": "others",
+          "isStopWord": false
+        },
+        {
+          "word": "jealousy",
+          "isStopWord": false
+        },
+        {
+          "word": "and",
+          "isStopWord": true
+        },
+        {
+          "word": "hatred",
+          "isStopWord": false
+        }
+      ]
+    },
+    {
+      "sentence": "The more people know about you, the more vulnerable you become to their negativity",
+      "words": [
+        {
+          "word": "The",
+          "isStopWord": true
+        },
+        {
+          "word": "more",
+          "isStopWord": true
+        },
+        {
+          "word": "people",
+          "isStopWord": false
+        },
+        {
+          "word": "know",
+          "isStopWord": false
+        },
+        {
+          "word": "about",
+          "isStopWord": true
+        },
+        {
+          "word": "you",
+          "isStopWord": true
+        },
+        {
+          "word": "the",
+          "isStopWord": true
+        },
+        {
+          "word": "more",
+          "isStopWord": true
+        },
+        {
+          "word": "vulnerable",
+          "isStopWord": false
+        },
+        {
+          "word": "you",
+          "isStopWord": true
+        },
+        {
+          "word": "become",
+          "isStopWord": false
+        },
+        {
+          "word": "to",
+          "isStopWord": true
+        },
+        {
+          "word": "their",
+          "isStopWord": true
+        },
+        {
+          "word": "negativity",
+          "isStopWord": false
+        }
+      ]
+    }
+  ]
+}
