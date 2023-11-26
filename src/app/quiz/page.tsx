@@ -1,22 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-
 "use client";
 
 import clsx from "clsx";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import useSWR from "swr";
-
-// import { useEffect } from "react";
-
-import { calibrate, seeso } from "../../utils/seeso";
-
-import { useRouter } from "next/router";
 
 type Quiz = {
   question: string;
@@ -25,94 +13,74 @@ type Quiz = {
 };
 
 type Entry = {
-  sentence: string;
-  word: string;
+  sentence: {
+    sentence: string;
+  };
+  word: {
+    word: string;
+  };
 };
 
 export default function HomePage() {
-  const [topEntries, setTopEntries] = useState<Entry[]>([]);
+  const router = useRouter();
+
+  const [topEntries, setTopEntries] = useState<Entry[]>(
+    JSON.parse(localStorage.getItem("top10Entries") ?? "[]") as Entry[],
+  );
   const [selectedIdx, setSelectedIdx] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
 
-  const [quize, setQuiz] = useState<Quiz>();
+  const { data, isLoading } = useSWR(
+    [selectedIdx, topEntries],
+    async ([idx, topEntries]: [number, Entry[]]) => {
+      if (topEntries.length === 0) return null;
 
-  console.log(selectedIdx);
-  const onIncrease = () => {
-    setSelectedIdx((idx) => idx + 1);
-  };
+      const { sentence, word } = topEntries[idx]!;
 
-  // const { data, isLoading } = useSWR(
-  //   [selectedIdx, topEntries],
-  //   async ([idx, topEntries]: [number, Entry[]]) => {
-  //     if (topEntries.length === 0) return null;
-
-  //     const { sentence, word } = topEntries[idx]!;
-
-  //     const res = await fetch(
-  //       "https://furiosa-server-vkfwbwiv6a-d,u.a.run.app/make-quiz",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           sentence,
-  //           word,
-  //         }),
-  //       },
-  //     );
-
-  //     const data = (await res.json()) as Quiz;
-
-  //     return data;
-  //   },
-  // );
-
-  const fetchQuiz = async () => {
-    if (topEntries.length === 0) return;
-
-    const { sentence, word } = topEntries[selectedIdx]!;
-
-    const res = await fetch(
-      "https://furiosa-server-vkfwbwiv6a-d,u.a.run.app/make-quiz",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "https://furiosa-server-vkfwbwiv6a-du.a.run.app/make-quiz",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sentence: sentence.sentence,
+            word: word.word,
+          }),
         },
-        body: JSON.stringify({
-          sentence,
-          word,
-        }),
-      },
-    );
+      );
 
-    const data = (await res.json()) as Quiz;
+      const data = (await res.json()) as Quiz;
 
-    setQuiz(data);
-  };
+      return data;
+    },
+  );
 
-  const handleButtonClick = async (idx: number) => {
-    setSelectedIdx(idx + 1);
-    console.log(idx);
-    // console.log(data);
-  };
-
-  useEffect(() => {
-    const topEntriesString = localStorage.getItem("top10Entries");
-    if (topEntriesString) {
-      setTopEntries(JSON.parse(topEntriesString));
-      void fetchQuiz();
+  const onClickNext = () => {
+    if (selectedIdx === 9) {
+      router.push(`/result?correctCount=${correctCount + 1}`);
+      return;
     }
-    setTopEntries([]);
-  }, []);
 
-  useEffect(() => {
-    void fetchQuiz();
-  }, [selectedIdx]);
+    setSelectedIdx((prev) => prev + 1);
+  };
+
+  const onGuess = (selectedOption: string) => {
+    if (selectedOption === data?.answer) {
+      alert("Correct!");
+      setCorrectCount((prev) => prev + 1);
+    } else {
+      alert("Wrong!");
+    }
+    onClickNext();
+  };
 
   return (
-    <main className={clsx("w-screen", "h-screen", "relative")}>
-      <div className="navbar h-[100px] bg-base-100">
+    <main
+      className={clsx("w-screen", "h-screen", "relative", "flex", "flex-col")}
+    >
+      <div className="navbar bg-base-100 h-[100px]">
         <div className="navbar-start">
           <div className="drawer-content">
             <label htmlFor="my-drawer" className="btn btn-circle btn-ghost">
@@ -140,7 +108,6 @@ export default function HomePage() {
           <button className="btn btn-circle btn-ghost">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              d
               className="h-10 w-5"
               fill="none"
               viewBox="0 0 24 24"
@@ -173,7 +140,6 @@ export default function HomePage() {
               <span className="badge indicator-item badge-primary badge-xs"></span>
             </div>
           </button>
-          d
         </div>
       </div>
       <div className="drawer">
@@ -185,7 +151,7 @@ export default function HomePage() {
             className="drawer-overlay"
           ></label>
 
-          <ul className="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
+          <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
             {/* Sidebar content here */}
             <h5
               id="drawer-navigation-label"
@@ -204,104 +170,26 @@ export default function HomePage() {
         <div></div>
       </div>
 
-      <div className="carousel w-full ">
-        <div id="item1" className="carousel-item w-full">
-          <div className="flex h-[1000px] w-full items-center bg-green-200 px-[200px]">
-            <div className="grid w-full  gap-10 text-center">
-              <div className=" h-64 bg-white">problem</div>
-              <div className=" h-20 bg-white">problem</div>
-              <div className=" h-20 bg-white">problem</div>
-              <div className=" h-20 bg-white">problem</div>
-              <div className=" h-20 bg-white">problem</div>
-            </div>
-          </div>
+      <div className="prose flex w-full flex-col items-center gap-y-4 px-[200px] text-black">
+        <div className=" flex h-20 w-full items-center bg-white">
+          {data ? (
+            <p>{data?.question}</p>
+          ) : (
+            <button className="btn-ghost loading mx-auto" />
+          )}
         </div>
-
-        <div id="item2" className="carousel-item w-full">
-          <div className="h-[1000px] w-full bg-green-200">hi</div>
-        </div>
-
-        <div id="item3" className="carousel-item w-full">
-          <div className="h-[1000px] w-full bg-green-300">hi</div>
-        </div>
-
-        <div id="item4" className="carousel-item w-full">
-          <div className="h-[1000px] w-full bg-green-400">hi</div>
-        </div>
-
-        <div id="item5" className="carousel-item w-full">
-          <div className="h-[1000px] w-full bg-green-500">hi</div>
-        </div>
-
-        <div id="item6" className="carousel-item w-full">
-          <div className="h-[1000px] w-full bg-green-600">hi</div>
-        </div>
-
-        <div id="item7" className="carousel-item w-full">
-          <div className="h-[1000px] w-full bg-green-700">hi</div>
-        </div>
-
-        <div id="item8" className="carousel-item w-full">
-          <div className="h-[1000px] w-full bg-green-800">hi</div>
-        </div>
-
-        <div id="item9" className="carousel-item w-full">
-          <div className="h-[1000px] w-full bg-green-900">hi</div>
-        </div>
-
-        <div id="item10" className="carousel-item w-full">
-          <div className="h-[1000px] w-full bg-green-300">hi</div>
-        </div>
-      </div>
-      {/* <div className="flex w-full justify-center gap-2 py-2">
-        {[...Array(10).keys()].map((idx) => (
-          <a
+        {data?.options.map((option, idx) => (
+          <button
+            className=" h-20 w-full bg-white"
             key={idx}
-            href={`#item${idx + 1}`}
-            onClick={() => handleButtonClick(idx)}
-            className="btn btn-xs"
+            onClick={() => onGuess(option)}
           >
-            {idx + 1}
-          </a>
+            {option}
+          </button>
         ))}
-      </div> */}
-      <button onClick={() => handleButtonClick(1)}>Next</button>
-      {/* <div className="flex w-full justify-center gap-2 py-2">
-        <a
-          href="#item1"
-          onClick={() => handleButtonClick(1)}
-          className="btn btn-xs"
-        >
-          1
-        </a>
-        <a href="#item2" onClick={handleButtonClick} className="btn btn-xs">
-          2
-        </a>
-        <a href="#item3" onClick={handleButtonClick} className="btn btn-xs">
-          3
-        </a>
-        <a href="#item4" onClick={handleButtonClick} className="btn btn-xs">
-          4
-        </a>
-        <a href="#item5" onClick={handleButtonClick} className="btn btn-xs">
-          5
-        </a>
-        <a href="#item6" onClick={handleButtonClick} className="btn btn-xs">
-          6
-        </a>
-        <a href="#item7" onClick={handleButtonClick} className="btn btn-xs">
-          7
-        </a>
-        <a href="#item8" onClick={handleButtonClick} className="btn btn-xs">
-          8
-        </a>
-        <a href="#item9" onClick={handleButtonClick} className="btn btn-xs">
-          9
-        </a>
-        <a href="#item10" onClick={handleButtonClick} className="btn btn-xs">
-          10
-        </a>
-      </div> */}
+      </div>
+
+      <button onClick={onClickNext}>Next</button>
     </main>
   );
 }
