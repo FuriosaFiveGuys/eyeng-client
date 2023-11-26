@@ -23,6 +23,7 @@ type Entry = {
 
 export default function HomePage() {
   const router = useRouter();
+  const correct = false;
 
   const [topEntries, setTopEntries] = useState<Entry[]>(
     JSON.parse(localStorage.getItem("top10Entries") ?? "[]") as Entry[],
@@ -69,6 +70,8 @@ export default function HomePage() {
   const onGuess = (selectedOption: string) => {
     if (selectedOption === data?.answer) {
       alert("Correct!");
+      const correct = true;
+      // setTimeout
       setCorrectCount((prev) => prev + 1);
     } else {
       alert("Wrong!");
@@ -80,7 +83,7 @@ export default function HomePage() {
     <main
       className={clsx("w-screen", "h-screen", "relative", "flex", "flex-col")}
     >
-      <div className="navbar bg-base-100 h-[100px]">
+      <div className="navbar h-[100px] bg-base-100">
         <div className="navbar-start">
           <div className="drawer-content">
             <label htmlFor="my-drawer" className="btn btn-circle btn-ghost">
@@ -137,6 +140,7 @@ export default function HomePage() {
                   d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                 />
               </svg>
+
               <span className="badge indicator-item badge-primary badge-xs"></span>
             </div>
           </button>
@@ -151,11 +155,11 @@ export default function HomePage() {
             className="drawer-overlay"
           ></label>
 
-          <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+          <ul className="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
             {/* Sidebar content here */}
             <h5
               id="drawer-navigation-label"
-              className="text-base font-semibold uppercase text-gray-500 dark:text-gray-400"
+              className="hidden text-base font-semibold uppercase text-gray-500 dark:text-gray-400"
             >
               Menu
             </h5>
@@ -170,8 +174,8 @@ export default function HomePage() {
         <div></div>
       </div>
 
-      <div className="prose flex w-full flex-col items-center gap-y-4 px-[200px] text-black">
-        <div className=" flex h-20 w-full items-center bg-white">
+      <div className="prose mt-32 flex w-full flex-col items-center gap-y-4 border-black  px-[200px] text-black">
+        <div className=" flex h-52 w-full items-center justify-center text-3xl font-extrabold">
           {data ? (
             <p>{data?.question}</p>
           ) : (
@@ -180,7 +184,7 @@ export default function HomePage() {
         </div>
         {data?.options.map((option, idx) => (
           <button
-            className=" h-20 w-full bg-white"
+            className="border-5 btn btn-active h-20 w-full rounded-lg border-black bg-base-300 px-12 text-start  text-[25px]"
             key={idx}
             onClick={() => onGuess(option)}
           >
@@ -189,7 +193,12 @@ export default function HomePage() {
         ))}
       </div>
 
-      <button onClick={onClickNext}>Next</button>
+      <button
+        onClick={onClickNext}
+        className="btn btn-active absolute bottom-0 mt-32 h-[60px] w-full text-[30px]"
+      >
+        Next
+      </button>
     </main>
   );
 }
