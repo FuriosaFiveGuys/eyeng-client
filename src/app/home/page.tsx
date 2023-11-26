@@ -4,20 +4,74 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
+
 "use client";
 
 import clsx from "clsx";
+import Link from 'next/link'
 import { useSearchParams } from "next/navigation";
+
 import { Fragment, useEffect, useState } from "react";
+import { useRouter } from 'next/router';
+
 
 import dummyData from "@/assets/dummy.json";
 
 import { seeso } from "../../utils/seeso";
+import useSWR from "swr";
 
-export default function HomePage() {
-  const searchParams = useSearchParams();
+type ImageToTextResult = typeof dummyData;
+
+const focusCount= {};
+
+type HomePageProps = {
+  searchParams: {
+    calibrationData: string;
+    imageUrl: string;
+
+  }
+}
+
+export default function HomePage({searchParams}:HomePageProps) {
+  // const router = useRouter();
+  const {calibrationData, imageUrl} = searchParams
+  // // 현재 경로에 'quiz'를 추가합니다.
+  // const quizPath = `${router.asPath}/quiz`;
+
+
+  const { data, isLoading } = useSWR(searchParams.imageUrl, async (url) => {
+    const res = await fetch(
+      "https://furiosa-server-vkfwbwiv6a-du.a.run.app/image-to-text",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ imageUrl: url }),
+      },
+    );
+
+    const data = (await res.json()) as typeof dummyData;
+
+    return data;
+  });
+  
 
   const [focusedId, setFocusedId] = useState<string>();
+  
+  // 기존의 dictionary 객체
+
+
+  if (focusedId!=="seeso-canvas"){
+    if (focusCount[focusedId] !== undefined){
+      focusCount[focusedId]+=1
+  
+    }
+    else{
+      focusCount[focusedId]=0
+    }
+  }
+
 
   const showGazeDotOnDom = (gazeInfo: any) => {
     const canvas = document.getElementById("seeso-canvas") as HTMLCanvasElement;
@@ -51,10 +105,46 @@ export default function HomePage() {
     ctx?.clearRect(0, 0, canvas.width, canvas.height);
   }
 
+  function getTop10Entries(focusCount) {
+    // 사전의 항목을 배열로 변환하고, 값에 따라 내림차순 정렬
+    const sortedEntries = Object.entries(focusCount)
+      .sort((a, b) => b[1] - a[1]); // b[1] - a[1]는 내림차순 정렬
+  
+    // 상위 10개 항목만 선택
+    return sortedEntries.slice(0, 10);
+  }
+  
+  // 버튼 클릭 이벤트 핸들러
+  function onButtonClick() {
+    const top10Entries = getTop10Entries(focusCount);
+
+
+    console.log(top10Entries); // 결과 출력
+
+    if(data?.sentences){
+      const quizData = top10Entries.map(ent => {
+        const [id] = ent;
+        const [_,sentIdx,__, wordIdx] = id.split("-");
+        const sentence = data.sentences[parseInt(sentIdx!)];
+        const word = sentence!.words[parseInt(wordIdx!)]
+
+
+        return {
+          sentence,
+          word
+        }
+
+      })
+
+      console.log(quizData)
+      localStorage.setItem('top10Entries', JSON.stringify(quizData));
+    }
+
+    
+  }
+
   useEffect(() => {
-    if (searchParams.has("calibrationData")) {
-      const calibrationData = searchParams.get("calibrationData");
-      if (calibrationData) {
+   
         const parsedConfig = JSON.parse(calibrationData);
 
         seeso.init(
@@ -66,55 +156,118 @@ export default function HomePage() {
           }, // callback when init succeeded.
           () => console.log("callback when init failed."), // callback when init failed.
         );
-      }
-    }
+   
   }, []);
 
   return (
     <main className={clsx("w-screen", "h-screen", "relative")}>
-      <canvas
-        id="seeso-canvas"
-        className={clsx("absolute", "top-0", "left-0")}
-      ></canvas>
-      <div
-        className={clsx(
-          "flex",
-          "absolute",
-          "inset-0",
-          "p-10",
-          "flex-wrap",
-          "gap-x-10",
-          "gap-y-0",
-        )}
-      >
-        {dummyData.sentences.map((sentence, s_index) => {
-          return (
-            <Fragment key={s_index}>
-              {sentence.words.map((word, w_index) => {
-                const id = `sent-${s_index}-word-${w_index}`;
-
-                return (
-                  <span
-                    id={id}
-                    key={w_index}
-                    className={clsx(
-                      "text-[4.5rem]",
-                      "leading-[8rem]",
-                      "font-semibold",
-                      "cursor-pointer",
-                      "border",
-                      "border-black",
-                      id === focusedId && "bg-red-500",
-                    )}
-                  >
-                    {word.word}
-                  </span>
-                );
-              })}
-            </Fragment>
-          );
-        })}
+      <div className="navbar bg-base-100 h-[100px]">
+      <div className="navbar-start">
+        <div className="drawer-content">
+          <label  htmlFor="my-drawer" className="btn btn-ghost btn-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+          </label>
+        </div>
       </div>
+      <div className="navbar-center">
+        <a className="btn btn-ghost text-5xl">EYENG</a>
+      </div>
+      <div className="navbar-end">
+        <button className="btn btn-ghost btn-circle">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+        </button>
+        <button className="btn btn-ghost btn-circle">
+          <div className="indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+            <span className="badge badge-xs badge-primary indicator-item"></span>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div className="relative mx-[150px] grid">
+        <canvas
+          id="seeso-canvas"
+          className={clsx("absolute", "top-0", "left-0", "border")}
+        ></canvas>
+        
+        <div
+          className={clsx(
+            "flex",
+            "absolute",
+            "inset-0",
+            "p-10",
+            "top-0",
+            "flex-wrap",
+            "gap-x-10",
+            "gap-y-0",
+            
+          )}
+        >
+          {data?.sentences.map((sentence, s_index) => {
+            return (
+              <Fragment key={s_index}>
+                {sentence.words.map((word, w_index) => {
+                  const id = `sent-${s_index}-word-${w_index}`;
+
+                  return (
+                    <span
+                      id={id}
+                      key={w_index}
+                      className={clsx(
+                        "text-[3rem]",
+                        "leading-[5rem]",
+                        "font-semibold",
+                        "cursor-pointer", 
+                        "border-black",
+                        id === focusedId && "bg-red-500",
+                      )}
+                    >
+                      {word.word}
+                    </span>
+                  );
+                })}
+              </Fragment>
+              
+            );
+          })}
+          <label htmlFor="my_modal_6" className="fixed btn right-[200px] bottom-[200px] w-[300px] h-[100px] text-3xl" onClick={onButtonClick}>Quiz</label>
+        </div>
+        
+        
+  
+      </div>
+      {/* <label htmlFor="my_modal_6" className="btn">open modal</label> */}
+
+{/* Put this part before </body> tag */}
+      <input type="checkbox" id="my_modal_6" className="modal-toggle" />
+      <div className="modal" role="dialog">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">모르는 단어 추출을 완료했습니다.</p>
+          <div className="modal-action">
+            <button className="btn"><Link href="/quiz">Solve Quiz</Link></button>
+          </div>
+        </div>
+      </div>
+      
+      <div className="drawer">
+        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-side">
+          <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
+          
+          <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+            {/* Sidebar content here */}
+            <h5 id="drawer-navigation-label" className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Menu</h5>
+            <li><Link href="/">Main Page</Link></li>
+            <li><Link href="/quiz">Quiz</Link></li> 
+          </ul>
+        </div> 
+      </div>
+
+    
+    
     </main>
+    
+    
   );
 }
