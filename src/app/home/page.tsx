@@ -9,19 +9,16 @@
 
 import clsx from "clsx";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-
 import { Fragment, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-
-import dummyData from "@/assets/dummy.json";
+import useSWR from "swr";
 
 import { seeso } from "../../utils/seeso";
-import useSWR from "swr";
+
+import type dummyData from "@/assets/dummy.json";
 
 type ImageToTextResult = typeof dummyData;
 
-const focusCount = {};
+const focusCount: Record<string, number> = {};
 
 type HomePageProps = {
   searchParams: {
@@ -36,7 +33,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
   // // 현재 경로에 'quiz'를 추가합니다.
   // const quizPath = `${router.asPath}/quiz`;
 
-  const { data, isLoading } = useSWR(searchParams.imageUrl, async (url) => {
+  const { data, isLoading } = useSWR(imageUrl, async (url) => {
     const res = await fetch(
       "https://furiosa-server-vkfwbwiv6a-du.a.run.app/image-to-text",
       {
@@ -48,7 +45,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
       },
     );
 
-    const data = (await res.json()) as typeof dummyData;
+    const data = (await res.json()) as ImageToTextResult;
 
     return data;
   });
@@ -57,7 +54,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
 
   // 기존의 dictionary 객체
 
-  if (focusedId !== "seeso-canvas") {
+  if (focusedId && focusedId !== "seeso-canvas") {
     if (focusCount[focusedId] !== undefined) {
       focusCount[focusedId] += 1;
     } else {
@@ -91,13 +88,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
     }
   };
 
-  function hideGazeDotOnDom() {
-    const canvas = document.getElementById("output") as HTMLCanvasElement;
-    const ctx = canvas.getContext("2d");
-    ctx?.clearRect(0, 0, canvas.width, canvas.height);
-  }
-
-  function getTop10Entries(focusCount) {
+  function getTop10Entries() {
     // 사전의 항목을 배열로 변환하고, 값에 따라 내림차순 정렬
     const sortedEntries = Object.entries(focusCount).sort(
       (a, b) => b[1] - a[1],
@@ -109,16 +100,19 @@ export default function HomePage({ searchParams }: HomePageProps) {
 
   // 버튼 클릭 이벤트 핸들러
   function onButtonClick() {
-    const top10Entries = getTop10Entries(focusCount);
+    const top10Entries = getTop10Entries();
 
     console.log(top10Entries); // 결과 출력
 
     if (data?.sentences) {
       const quizData = top10Entries.map((ent) => {
         const [id] = ent;
-        const [_, sentIdx, __, wordIdx] = id.split("-");
-        const sentence = data.sentences[parseInt(sentIdx!)];
-        const word = sentence!.words[parseInt(wordIdx!)];
+        // const [_, sentIdx, __, wordIdx] = id.split("-");
+        const splitted = id.split("-") as [string, string, string, string];
+        const sentIdx = splitted[1];
+        const wordIdx = splitted[3];
+        const sentence = data.sentences[parseInt(sentIdx)];
+        const word = sentence!.words[parseInt(wordIdx)];
 
         return {
           sentence,
@@ -152,7 +146,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <main className={clsx("w-screen", "h-screen", "relative")}>
-      <div className="navbar h-[100px] bg-base-100">
+      <div className="navbar bg-base-100 h-[100px]">
         <div className="navbar-start">
           <div className="drawer-content">
             <label htmlFor="my-drawer" className="btn btn-circle btn-ghost">
@@ -292,7 +286,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
       />
       <div className="modal" role="dialog">
         <div className="modal-box flex h-[400px] w-[500px] flex-col items-center justify-center ">
-          <span className="loading loading-bars loading-lg w-[100px]"></span>
+          <span className="loading loading-bars w-[100px]"></span>
           <p className="py-4">지문을 불러오고 있습니다. 잠시 기다려주세요</p>
         </div>
       </div>
@@ -306,7 +300,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
             className="drawer-overlay"
           ></label>
 
-          <ul className="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
+          <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
             {/* Sidebar content here */}
             <h5
               id="drawer-navigation-label"

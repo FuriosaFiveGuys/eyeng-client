@@ -1,11 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import clsx from "clsx";
-import { ChangeEvent, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 import { createClient } from "@supabase/supabase-js";
+
+import type { ChangeEvent } from "react";
 
 type MainPageProps = {
   searchParams: {
@@ -18,14 +20,14 @@ export default function index({ searchParams }: MainPageProps) {
 
   const onChangeImg = async (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target;
-    if (input.files && input.files[0]) {
+    if (input.files?.[0]) {
       const file = input.files[0];
       const supabase = createClient(
         "https://ugeaykndinohskzxlbfa.supabase.co/",
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnZWF5a25kaW5vaHNrenhsYmZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA5MjkzOTIsImV4cCI6MjAxNjUwNTM5Mn0.m1UuaGOEniBnxnrGZIKYBY0pE5IlpTtyP5DN7GR3nZQ",
       );
 
-      const { data, error } = await supabase.storage
+      const { data } = await supabase.storage
         .from("furiosa-image-upload")
         .upload(file.name, file, {
           cacheControl: "3600",

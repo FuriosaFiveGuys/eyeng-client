@@ -23,15 +23,15 @@ type Entry = {
 
 export default function HomePage() {
   const router = useRouter();
-  const correct = false;
 
-  const [topEntries, setTopEntries] = useState<Entry[]>(
-    JSON.parse(localStorage.getItem("top10Entries") ?? "[]") as Entry[],
-  );
+  const topEntries = JSON.parse(
+    localStorage.getItem("top10Entries") ?? "[]",
+  ) as Entry[];
+
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
 
-  const { data, isLoading } = useSWR(
+  const { data } = useSWR(
     [selectedIdx, topEntries],
     async ([idx, topEntries]: [number, Entry[]]) => {
       if (topEntries.length === 0) return null;
@@ -70,7 +70,6 @@ export default function HomePage() {
   const onGuess = (selectedOption: string) => {
     if (selectedOption === data?.answer) {
       alert("Correct!");
-      const correct = true;
       // setTimeout
       setCorrectCount((prev) => prev + 1);
     } else {
@@ -83,7 +82,7 @@ export default function HomePage() {
     <main
       className={clsx("w-screen", "h-screen", "relative", "flex", "flex-col")}
     >
-      <div className="navbar h-[100px] bg-base-100">
+      <div className="navbar bg-base-100 h-[100px]">
         <div className="navbar-start">
           <div className="drawer-content">
             <label htmlFor="my-drawer" className="btn btn-circle btn-ghost">
@@ -155,7 +154,7 @@ export default function HomePage() {
             className="drawer-overlay"
           ></label>
 
-          <ul className="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
+          <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
             {/* Sidebar content here */}
             <h5
               id="drawer-navigation-label"
@@ -184,7 +183,7 @@ export default function HomePage() {
         </div>
         {data?.options.map((option, idx) => (
           <button
-            className="border-5 btn btn-active h-20 w-full rounded-lg border-black bg-base-300 px-12 text-start  text-[25px]"
+            className="border-5 btn btn-active bg-base-300 h-20 w-full rounded-lg border-black px-12 text-start  text-[25px]"
             key={idx}
             onClick={() => onGuess(option)}
           >
