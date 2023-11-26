@@ -102,8 +102,6 @@ export default function HomePage({ searchParams }: HomePageProps) {
   function onButtonClick() {
     const top10Entries = getTop10Entries();
 
-    console.log(top10Entries); // 결과 출력
-
     if (data?.sentences) {
       const quizData = top10Entries.map((ent) => {
         const [id] = ent;
@@ -120,7 +118,6 @@ export default function HomePage({ searchParams }: HomePageProps) {
         };
       });
 
-      console.log(quizData);
       localStorage.setItem("top10Entries", JSON.stringify(quizData));
     }
   }
@@ -146,7 +143,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <main className={clsx("w-screen", "h-screen", "relative")}>
-      <div className="navbar bg-base-100 h-[100px]">
+      <div className="navbar h-[100px] bg-base-100">
         <div className="navbar-start">
           <div className="drawer-content">
             <label htmlFor="my-drawer" className="btn btn-circle btn-ghost">
@@ -300,7 +297,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
             className="drawer-overlay"
           ></label>
 
-          <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+          <ul className="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
             {/* Sidebar content here */}
             <h5
               id="drawer-navigation-label"

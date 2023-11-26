@@ -38,7 +38,6 @@ export default function index({ searchParams }: MainPageProps) {
         const data_path =
           "https://ugeaykndinohskzxlbfa.supabase.co/storage/v1/object/public/furiosa-image-upload/" +
           data.path;
-        console.log("hi");
         router.push(
           `/home?calibrationData=${searchParams.calibrationData}&imageUrl=${data_path}`,
         );
