@@ -58,9 +58,11 @@ export default function HomePage() {
     },
   );
 
-  const onClickNext = () => {
+  const onClickNext = (correctAtTheEnd: boolean) => {
     if (selectedIdx === 9) {
-      router.push(`/result?correctCount=${correctCount + 1}`);
+      router.push(
+        `/result?correctCount=${correctCount + (correctAtTheEnd ? 1 : 0)}`,
+      );
       return;
     }
 
@@ -72,17 +74,18 @@ export default function HomePage() {
       alert("Correct!");
       // setTimeout
       setCorrectCount((prev) => prev + 1);
+      onClickNext(true);
     } else {
       alert("Wrong!");
+      onClickNext(false);
     }
-    onClickNext();
   };
 
   return (
     <main
       className={clsx("w-screen", "h-screen", "relative", "flex", "flex-col")}
     >
-      <div className="navbar bg-base-100 h-[100px]">
+      <div className="navbar h-[100px] bg-base-100">
         <div className="navbar-start">
           <div className="drawer-content">
             <label htmlFor="my-drawer" className="btn btn-circle btn-ghost">
@@ -154,7 +157,7 @@ export default function HomePage() {
             className="drawer-overlay"
           ></label>
 
-          <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+          <ul className="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
             {/* Sidebar content here */}
             <h5
               id="drawer-navigation-label"
@@ -183,7 +186,7 @@ export default function HomePage() {
         </div>
         {data?.options.map((option, idx) => (
           <button
-            className="border-5 btn btn-active bg-base-300 h-20 w-full rounded-lg border-black px-12 text-start  text-[25px]"
+            className="border-5 btn btn-active h-20 w-full rounded-lg border-black bg-base-300 px-12 text-start  text-[25px]"
             key={idx}
             onClick={() => onGuess(option)}
           >
@@ -193,7 +196,7 @@ export default function HomePage() {
       </div>
 
       <button
-        onClick={onClickNext}
+        onClick={() => onClickNext(false)}
         className="btn btn-active absolute bottom-0 mt-32 h-[60px] w-full text-[30px]"
       >
         Next

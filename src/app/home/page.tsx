@@ -102,6 +102,11 @@ export default function HomePage({ searchParams }: HomePageProps) {
   function onButtonClick() {
     const top10Entries = getTop10Entries();
 
+    if (top10Entries.length < 10) {
+      alert("단어를 더 많이 보세요!");
+      return;
+    }
+
     if (data?.sentences) {
       const quizData = top10Entries.map((ent) => {
         const [id] = ent;
@@ -279,6 +284,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
         type="checkbox"
         id="my_modal_7"
         className="modal-toggle"
+        readOnly
         checked={isLoading}
       />
       <div className="modal" role="dialog">
